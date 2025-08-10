@@ -1,0 +1,33 @@
+.page {
+  padding: 1.5rem;
+}
+
+.tee-time-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+
+  .row {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+
+    label {
+      display: flex;
+      white-space: nowrap;
+      flex: 0 0 130px;
+      justify-content: end;
+    }
+
+    input {
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+  }
+}
+
+.input-field {
+  margin-top: 8px;
+}
