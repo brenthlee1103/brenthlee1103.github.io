@@ -13,8 +13,15 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
+
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+
+function useIsMobile() {
+  const theme = useTheme();
+  return useMediaQuery(theme.breakpoints.down("md"));
+}
 
 const initialForm = {
   email: "",
@@ -30,6 +37,8 @@ function FillForm() {
   const didInit = useRef(false);
   const loading = useRef(true);
   const running = useRef(false);
+
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     document.title = "SC Muni Golf Tee Times";
@@ -134,15 +143,23 @@ function FillForm() {
                   textField: {
                     fullWidth: true,
                     required: true,
+                    sx: {
+                      "& .MuiInputLabel-root": {
+                        fontSize: { xs: ".9rem", md: "1rem" },
+                      },
+                      "& .MuiPickersSectionList-root": {
+                        fontSize: { xs: ".9rem", md: "1rem" },
+                      },
+                    },
                   },
                 }}
               />
             </div>
             <div className="row">
               <TimePicker
-                label="Earliest Tee Time"
+                label={isMobile ? "Earliest" : "Earliest Tee Time"}
                 views={["hours", "minutes"]}
-                format="hh:mm a"
+                format="HH:mm"
                 value={fromHHmm(formData.earliest)}
                 onChange={(val) => {
                   setFormData((prev) => ({
@@ -150,12 +167,26 @@ function FillForm() {
                     earliest: val ? val.format("HH:mm") : "",
                   }));
                 }}
-                slotProps={{ textField: { fullWidth: true, required: true } }}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    required: true,
+                    sx: {
+                      "& .MuiInputLabel-root": {
+                        fontSize: { xs: ".9rem", md: "1rem" },
+                      },
+                      "& .MuiPickersSectionList-root": {
+                        fontSize: { xs: ".8rem", md: "1rem" },
+                      },
+                    },
+                  },
+                }}
               />
               <TimePicker
-                label="Latest Tee Time"
+                className="general"
+                label={isMobile ? "Latest" : "Latest Tee Time"}
                 views={["hours", "minutes"]}
-                format="hh:mm a"
+                format="HH:mm"
                 value={fromHHmm(formData.latest)}
                 onChange={(val) => {
                   setFormData((prev) => ({
@@ -163,11 +194,27 @@ function FillForm() {
                     latest: val ? val.format("HH:mm") : "",
                   }));
                 }}
-                slotProps={{ textField: { fullWidth: true, required: true } }}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    required: true,
+                    sx: {
+                      "& .MuiInputLabel-root": {
+                        fontSize: { xs: ".9rem", md: "1rem" },
+                      },
+                      "& .MuiPickersSectionList-root": {
+                        fontSize: { xs: ".8rem", md: "1rem" },
+                      },
+                    },
+                  },
+                }}
               />
-              <FormControl fullWidth required>
-                <InputLabel id="num-players-select-label"># Players</InputLabel>
+              <FormControl className="general" fullWidth required>
+                <InputLabel id="num-players-select-label" className="general">
+                  # Players
+                </InputLabel>
                 <Select
+                  className="general"
                   labelId="num-players-select-label"
                   id="num-players-select"
                   value={formData.players}

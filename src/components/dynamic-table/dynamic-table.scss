@@ -1,16 +1,24 @@
-table {
+.table-wrap {
   width: 100%;
-  table-layout: fixed;
-  border: 1px solid black;
+  overflow-x: auto;
+}
+
+table {
+  width: max-content;
+  table-layout: auto;
   border-collapse: collapse;
 }
 
-th {
-  border: 1px solid black;
-  padding: 10px;
-}
-
+th,
 td {
   border: 1px solid black;
-  padding: 10px;
+  padding: 8px;
+}
+
+@media (min-width: 900px) {
+  table {
+    table-layout: fixed;
+    width: 100%;
+    font-size: 0.9rem;
+  }
 }
