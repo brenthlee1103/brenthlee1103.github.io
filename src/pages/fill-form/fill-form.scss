@@ -2,6 +2,15 @@
   padding: 1.5rem;
 }
 
+.container {
+  display: flex;
+  gap: 20px;
+}
+
+.col {
+  max-width: 50%;
+}
+
 .tee-time-form {
   display: flex;
   flex-direction: column;
