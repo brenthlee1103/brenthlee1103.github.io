@@ -218,6 +218,7 @@ function FillForm() {
                   labelId="num-players-select-label"
                   id="num-players-select"
                   value={formData.players}
+                  name="players"
                   onChange={handleInputChange}
                 >
                   <MenuItem value={1}>1</MenuItem>
