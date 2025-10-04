@@ -1,0 +1,244 @@
+// .my-table {
+//   width: 100%;
+//   border-collapse: collapse;
+// }
+// .my-table th,
+// .my-table td {
+//   padding: 8px 10px;
+//   border-bottom: 1px solid #eee;
+// }
+// .my-table tbody tr.row {
+//   cursor: pointer;
+// }
+// .my-table tbody tr.row:hover {
+//   background: rgba(0, 0, 0, 0.035);
+// }
+
+// /* One transparent overlay to catch outside clicks (no doc listeners needed) */
+// .menu-overlay {
+//   position: fixed;
+//   inset: 0;
+//   z-index: 9999;
+//   display: flex;
+//   flex-direction: column;
+// }
+
+// /* The little menu */
+// .menu {
+//   width: 180px;
+//   background: #fff;
+//   border-radius: 10px;
+//   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2);
+//   padding: 6px;
+//   display: flex;
+//   flex-direction: column;
+// }
+// .menu-item {
+//   // display: block;
+//   width: 100%;
+//   text-align: left;
+//   background: transparent;
+//   border: 0;
+//   padding: 10px 12px;
+//   border-radius: 8px;
+//   font: inherit;
+//   cursor: pointer;
+// }
+// .menu-item:hover,
+// .menu-item:focus {
+//   background: rgba(0, 0, 0, 0.06);
+//   outline: none;
+// }
+
+// ===============================
+// ClickMenu (SCSS)
+// ===============================
+
+// ---- Tokens
+// $z-overlay: 9999;
+// $z-menu: 10000;
+
+// $menu-width: 180px;
+// $menu-radius: 10px;
+// $menu-padding: 6px;
+
+// $menu-bg: #ffffff;
+// $menu-shadow: 0 12px 36px rgba(0, 0, 0, 0.2);
+// $menu-color: #111;
+
+// $item-gap: 8px;
+// $item-radius: 8px;
+// $item-pad-y: 10px;
+// $item-pad-x: 12px;
+// $item-hover-bg: rgba(0, 0, 0, 0.06);
+// $item-active-bg: rgba(25, 118, 210, 0.14);
+// $item-danger: #d32f2f;
+
+// $separator-color: #eee;
+
+// ---- Overlay covers the whole viewport and catches outside clicks
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: transparent; // keep page visible behind
+  // no pointer-events: none; we NEED clicks for outside-close
+}
+
+// ---- The floating menu surface
+.menu {
+  position: fixed; // left/top provided inline from JS
+  z-index: 10000;
+  width: 180px;
+  max-width: calc(100vw - 16px);
+  background: #ffffff;
+  color: #111;
+  border-radius: 10px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2);
+  padding: 6px;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+
+  // subtle pop-in
+  opacity: 0;
+  transform: scale(0.98);
+  animation: menu-enter 0.12s ease-out forwards;
+
+  // optional variants
+  &--compact {
+    padding: 4px;
+
+    .menu-item {
+      padding: 8px 10px;
+    }
+  }
+
+  &--wide {
+    width: 240px;
+  }
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    // background: rgba(0, 0, 0, 0.06);
+    background-color: lightgray;
+    outline: 0;
+  }
+
+  &:active {
+    background: rgba(25, 118, 210, 0.14);
+  }
+
+  &.is-danger {
+    color: #d32f2f;
+  }
+
+  &.is-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+// Optional sub-elements if you add icons/labels
+.menu__icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 18px;
+
+  // normalize inline SVGs
+  svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}
+
+.menu__label {
+  flex: 1 1 auto;
+}
+
+// Separator between groups
+.menu-sep {
+  height: 1px;
+  margin: 4px;
+  background: #eee;
+  border: 0;
+}
+
+// ---- Touch ergonomics
+// @media (pointer: coarse) {
+//   .menu-item {
+//     // ensure comfortable hit target on mobile
+//     padding: max(#{$item-pad-y}, 12px) $item-pad-x;
+//   }
+// }
+
+// ---- Dark mode
+// @media (prefers-color-scheme: dark) {
+//   .menu {
+//     background: #1f1f1f;
+//     color: #eaeaea;
+//     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+//   }
+
+//   .menu-item {
+//     &:hover,
+//     &:focus-visible {
+//       background: rgba(255, 255, 255, 0.08);
+//     }
+//     &:active {
+//       background: rgba(255, 255, 255, 0.12);
+//     }
+//   }
+
+//   .menu-sep {
+//     background: rgba(255, 255, 255, 0.14);
+//   }
+// }
+
+// // ---- High-contrast / forced colors accessibility
+// @media (forced-colors: active) {
+//   .menu {
+//     border: 1px solid CanvasText;
+//   }
+
+//   .menu-item {
+//     border: 1px solid transparent;
+
+//     &:hover,
+//     &:focus-visible {
+//       outline: 1px solid Highlight;
+//       outline-offset: -1px;
+//     }
+//   }
+// }
+
+// // ---- Hide floating UI in print
+// @media print {
+//   .menu-overlay,
+//   .menu {
+//     display: none !important;
+//   }
+// }
+
+// .menu-item:hover {
+//   background-color: gray;
+// }

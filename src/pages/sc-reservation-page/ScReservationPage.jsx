@@ -2,20 +2,14 @@ import { useState, useEffect, useRef } from "react";
 
 import DynamicTable from "@/components/dynamic-table/DynamicTable";
 import PageHeader from "@/components/page-header/PageHeader";
+import FillForm from "@/components/fill-form/FillForm";
+import ModalForm from "@/components/modal-form/ModalForm";
+import ClickMenu from "@/components/click-menu/ClickMenu";
+import Snackbar from "@mui/material/Snackbar";
 
-import "./fill-form.scss";
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import "./sc-reservation-page.scss";
 import { useMediaQuery, useTheme } from "@mui/material";
 
-import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
 function useIsMobile() {
@@ -30,9 +24,14 @@ const initialForm = {
   latest: "15:00",
   players: 4,
 };
-function FillForm() {
+function ScReservationPage() {
   const [formData, setFormData] = useState(initialForm);
+  const [popupFormData, setPopupFormData] = useState(initialForm);
   const [rows, setRows] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  // const [currentRowIndex, setCurrentRowIndex] = useState(null);
 
   const didInit = useRef(false);
   const loading = useRef(true);
@@ -59,9 +58,41 @@ function FillForm() {
       loading.current = false;
       setRows(data);
       return data;
+      // loading.current = false;
+      // const forcedTmpData = [
+      //   {
+      //     email: "brenthlee@gmail.com",
+      //     date: "12-29-2025",
+      //     earliest: "01:00",
+      //     latest: "23:00",
+      //     players: "2",
+      //   },
+      //   {
+      //     email: "brenthlee@gmail.com",
+      //     date: "12-30-2025",
+      //     earliest: "01:01",
+      //     latest: "23:01",
+      //     players: "3",
+      //   },
+      //   {
+      //     email: "brenthlee@gmail.com",
+      //     date: "12-31-2025",
+      //     earliest: "01:02",
+      //     latest: "23:02",
+      //     players: "4",
+      //   },
+      // ];
+      // setRows(forcedTmpData);
     }
     getData();
   }, []);
+
+  const [clickMenu, setClickMenu] = useState({
+    open: false,
+    x: 0,
+    y: 0,
+    index: null,
+  });
 
   function handleInputChange(event) {
     const { name, value } = event.target;
@@ -71,9 +102,21 @@ function FillForm() {
     }));
   }
 
-  async function handleSubmit(event) {
+  function handlePopupFormChange(event) {
+    const { name, value } = event.target;
+    setPopupFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+
+  async function handleSubmitAppend(event) {
     event.preventDefault();
     running.current = true;
+    // TODO: KEEP THESE LOGS
+    console.log("Adding data to the waitlist `handleSubmitAppend(event)`:");
+    console.log(formData);
+    // console.log(event);
     const res = await fetch(
       "https://gapps-proxy.brenthlee.workers.dev/?action=append",
       {
@@ -88,11 +131,117 @@ function FillForm() {
     running.current = false;
   }
 
+  async function handleSubmitEdit(event) {
+    event.preventDefault();
+    running.current = true;
+    // console.log(popupFormData);
+    // console.log(clickMenu.index);
+    const tmpData = { data: { ...popupFormData }, rowIndex: clickMenu.index };
+    console.log("Modified data `handleSubmitEdit(event)`:");
+    console.log(tmpData);
+    const res = await fetch(
+      "https://gapps-proxy.brenthlee.workers.dev/?action=edit",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(tmpData),
+      }
+    );
+    setFormData(initialForm);
+    const data = await res.json();
+    setRows(data);
+    setClickMenu((m) => ({ ...m, index: null }));
+    setModalOpen(false);
+    running.current = false;
+  }
+
   const fromMMDDYYYY = (str) => (str ? dayjs(str, "MM-DD-YYYY") : null);
   const fromHHmm = (str) => (str ? dayjs(str, "HH:mm") : null);
   const toMMDDYYYY = (date) => {
     return date ? dayjs(date).format("MM-DD-YYYY") : "";
   };
+
+  // function rowClickedData(data) {
+  //   console.log(data);
+  //   setPopupFormData(data);
+  //   setModalOpen(true);
+  // }
+
+  // const [clickMenu, setClickMenu] = useState({
+  //   open: false,
+  //   x: 0,
+  //   y: 0,
+  //   index: null,
+  // });
+
+  const openMenu = ({ row, index, x, y }) => {
+    setPopupFormData(row);
+    setClickMenu({ open: true, x, y, index });
+  };
+
+  const closeMenuKeepIndex = () => {
+    setClickMenu((m) => ({ ...m, open: false }));
+  };
+  const closeMenuDeleteIndex = () => {
+    setClickMenu((m) => ({ ...m, open: false, index: null }));
+  };
+  // setClickMenu((m) => ({ ...m, open: false, index: null }));
+
+  // const handleEdit = () => {
+  //   setModalOpen(true);
+  //   // const r = rows[clickMenu.index];
+  //   // console.log("Edit row:", r);
+  //   // open your modal here with r as initialValues…
+  // };
+
+  const handleToastClose = () => {
+    setToastOpen(false);
+  };
+
+  const handleDelete = () => {
+    console.log("Deleting data from the waitlist:");
+    console.log(popupFormData);
+    console.log(clickMenu.index);
+    const dataDelete = {
+      index: clickMenu.index,
+    };
+    fetch("https://gapps-proxy.brenthlee.workers.dev/?action=delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataDelete),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedIndex === 999) {
+          setToastMessage("Did not delete any rows!");
+        } else {
+          setToastMessage(
+            `Deleted waitlist for ${popupFormData.email} on ${popupFormData.date}`
+          );
+          setRows(data.data);
+        }
+        setToastOpen(true);
+      });
+    setClickMenu((m) => ({ ...m, index: null }));
+    // setRows((prev) => prev.filter((_, i) => i !== clickMenu.index));
+  };
+
+  // async function handleSubmitAppend(event) {
+  //   event.preventDefault();
+  //   running.current = true;
+  //   const res = await fetch(
+  //     "https://gapps-proxy.brenthlee.workers.dev/?action=append",
+  //     {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(formData),
+  //     }
+  //   );
+  //   setFormData(initialForm);
+  //   const data = await res.json();
+  //   setRows(data);
+  //   running.current = false;
+  // }
 
   return (
     <div className="page">
@@ -101,7 +250,10 @@ function FillForm() {
         <div className="col">
           <h2>Instructions</h2>
           <ol>
-            <li>Fill out the form</li>
+            <li>
+              Fill out the form (The waitlist is for pending reservations. They
+              are not made yet!)
+            </li>
             <li>Hit the "Submit" button</li>
             <li>
               Wait for confirmation - You will receive two emails:
@@ -113,8 +265,56 @@ function FillForm() {
                 <li>Later - when it is actually booked</li>
               </ol>
             </li>
+            <li>
+              You can make changes to the pending waitlist reservations by
+              clicking on the row in the table.
+            </li>
           </ol>
-          <Box
+          <ModalForm
+            open={modalOpen}
+            onClose={() => {
+              setModalOpen(false);
+              closeMenuDeleteIndex();
+              // setClickMenu((m) => ({ ...m, index: null }));
+            }}
+            editFormSubmitHandler={handleSubmitEdit}
+            editFormOnChangeHandler={handlePopupFormChange}
+            formValues={popupFormData}
+          />
+          <ClickMenu
+            open={clickMenu.open}
+            x={clickMenu.x}
+            y={clickMenu.y}
+            onCloseDeleteIndex={closeMenuDeleteIndex}
+            onCloseKeepIndex={closeMenuKeepIndex}
+            items={[
+              {
+                label: "Edit",
+                onClick: () => {
+                  setModalOpen(true);
+                },
+              },
+              { label: "Delete", onClick: handleDelete },
+            ]}
+          />
+          <Snackbar
+            open={toastOpen}
+            onClose={handleToastClose}
+            autoHideDuration={3000} // 3s
+            message={toastMessage}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          />
+          <FillForm
+            formValues={formData}
+            handleCancel={null}
+            handleSubmit={(event) => {
+              console.log(event);
+              // TODO HERE...done....just uncomment
+              handleSubmitAppend(event);
+            }}
+            handleInputChange={handleInputChange}
+          />
+          {/* <Box
             component="form"
             onSubmit={(event) => handleSubmit(event)}
             className="tee-time-form"
@@ -233,13 +433,17 @@ function FillForm() {
                 Submit
               </Button>
             </div>
-          </Box>
+          </Box> */}
         </div>
         <div className="col">
           <DynamicTable
             rows={rows}
             loading={loading.current}
             running={running.current}
+            // rowClickedData={rowClickedData}
+            onRowMenu={openMenu}
+            clickMenuObj={clickMenu}
+            // sameClickClose={closeMenu}
           />
         </div>
       </div>
@@ -247,4 +451,4 @@ function FillForm() {
   );
 }
 
-export default FillForm;
+export default ScReservationPage;

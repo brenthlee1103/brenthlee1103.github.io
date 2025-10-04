@@ -1,0 +1,62 @@
+.page {
+  padding: 1.5rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 20px;
+}
+
+.col {
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .container {
+    flex-direction: row;
+  }
+  .col {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
+.tee-time-form {
+  display: flex;
+  flex-direction: column;
+  // max-width: 600px;
+  width: 100%;
+
+  .row {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+
+    label {
+      display: flex;
+      white-space: nowrap;
+      flex: 0 0 130px;
+      justify-content: end;
+    }
+
+    input {
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+  }
+}
+
+.general {
+  font-size: 0.5rem;
+}
+
+.input-field {
+  margin-top: 8px;
+}
+
+.menu-item:hover {
+  background-color: lightgray;
+}

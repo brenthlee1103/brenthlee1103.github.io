@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { useMediaQuery, useTheme } from "@mui/material";
 import "./dynamic-table.scss";
 
@@ -6,11 +7,60 @@ function useIsMobile() {
   return useMediaQuery(theme.breakpoints.down("md"));
 }
 
-function DynamicTable({ rows = [], loading = true, running = true }) {
+function DynamicTable({
+  rows = [],
+  loading = true,
+  running = true,
+  // rowClickedData,
+  onRowMenu,
+  clickMenuObj,
+}) {
   const hasData = rows && rows.length > 0;
   const isMobile = useIsMobile();
 
+  const lastPoint = useRef({ x: 0, y: 0 });
+
+  const rememberPointer = (e) => {
+    const p = e.nativeEvent || e; // PointerEvent
+    lastPoint.current = { x: p.clientX ?? 0, y: p.clientY ?? 0 };
+  };
+
+  // const handleRowClick = (row, index) => (e) => {
+  //   // use click coords if present; otherwise the last pointerdown coords (mobile safety)
+  //   const x = e.clientX ?? lastPoint.current.x;
+  //   const y = e.clientY ?? lastPoint.current.y;
+  //   onRowMenu?.({ row, index, x, y });
+  // };
+
   const emailMobile = (email) => email.replace("@", "\u200b@");
+
+  // const [selectedIndex, setSelectedIndex] = useState(null);
+
+  // function handleRowClick(row, index) {
+  //   const x = e.clientX ?? lastPoint.current.x;
+  //   const y = e.clientY ?? lastPoint.current.y;
+  //   onRowMenu?.({ row, index, x, y });
+  //   rowClickedData(rows[index]);
+  //   setSelectedIndex((prev) => (prev === index ? null : index));
+  // }
+
+  // const handleRowClick = (row, index) => (e) => {
+  //   // use click coords if present; otherwise the last pointerdown coords (mobile safety)
+  //   const x = e.clientX ?? lastPoint.current.x;
+  //   const y = e.clientY ?? lastPoint.current.y;
+  //   onRowMenu?.({ row, index, x, y });
+  //   setSelectedIndex((prev) => (prev === index ? null : index));
+  // };
+
+  const handleRowClick = (row, index) => (e) => {
+    const x = e.clientX ?? lastPoint.current.x;
+    const y = e.clientY ?? lastPoint.current.y;
+    onRowMenu?.({ row, index, x, y });
+    // if (selectedIndex === index) {
+    //   sameClickClose();
+    // }
+    // setSelectedIndex((prev) => (prev === index ? null : index));
+  };
 
   return (
     <div className="table-wrap">
@@ -40,15 +90,25 @@ function DynamicTable({ rows = [], loading = true, running = true }) {
             </tr>
           )}
           {hasData ? (
-            rows.map((r, i) => (
-              <tr key={`${r.email}-${r.date}-${i}`}>
-                <td>{isMobile ? emailMobile(r.email) : r.email}</td>
-                <td>{r.date}</td>
-                <td>{r.earliest}</td>
-                <td>{r.latest}</td>
-                <td>{r.players}</td>
-              </tr>
-            ))
+            rows.map((r, i) => {
+              const rowSpecificClass =
+                "filled-row" +
+                (clickMenuObj.index === i ? " selected-row-class" : "");
+              return (
+                <tr
+                  key={`${r.email}-${r.date}-${i}`}
+                  className={rowSpecificClass}
+                  onPointerDown={rememberPointer}
+                  onClick={handleRowClick(r, i)}
+                >
+                  <td>{isMobile ? emailMobile(r.email) : r.email}</td>
+                  <td>{r.date}</td>
+                  <td>{r.earliest}</td>
+                  <td>{r.latest}</td>
+                  <td>{r.players}</td>
+                </tr>
+              );
+            })
           ) : (
             <tr>
               <td style={{ textAlign: "center" }} colSpan="5">

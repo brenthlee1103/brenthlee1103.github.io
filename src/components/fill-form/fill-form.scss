@@ -9,6 +9,9 @@
 }
 
 .col {
+  // display: flex;
+  // flex-direction: column;
+  // gap: 20px;
   width: 100%;
 }
 
@@ -25,14 +28,15 @@
 .tee-time-form {
   display: flex;
   flex-direction: column;
-  max-width: 600px;
+  // max-width: 600px;
+  width: 100%;
 
   .row {
     margin-top: 10px;
     display: flex;
     align-items: center;
     width: 100%;
-    gap: 8px;
+    gap: 10px;
 
     label {
       display: flex;
@@ -46,11 +50,21 @@
       flex: 1 1 auto;
     }
   }
+
+  @media (max-width: 900px) {
+    // MUI md breakpoint
+    .row {
+      flex-direction: column;
+    }
+    .row > * {
+      width: 100%;
+    }
+  }
 }
 
-.general {
-  font-size: 0.5rem;
-}
+// .general {
+//   font-size: 0.5rem;
+// }
 
 .input-field {
   margin-top: 8px;
