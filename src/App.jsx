@@ -5,6 +5,7 @@ import Home from "./pages/home/Home.jsx";
 // import FillForm from "./pages/fill-form/FillForm.jsx";
 import ScReservationPage from "./pages/sc-reservation-page/ScReservationPage.jsx";
 import PacMan from "./pages/pac-man/PacMan.jsx";
+import Snake from "./pages/snake/Snake.jsx";
 
 import "./App.css";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -25,6 +26,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/" element={<Home />} />
           <Route path="/tee-times" element={<ScReservationPage />} />
           <Route path="/pac-man" element={<PacMan />} />
+          <Route path="/snake" element={<Snake />} />
         </Routes>
       </BrowserRouter>
     </LocalizationProvider>
