@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import "./snake.scss";
 
 const GRID_SIZE = 20;
-const CELL_SIZE = 25;
 const INITIAL_SNAKE = [{ x: 10, y: 10 }];
 const INITIAL_DIRECTION = { x: 1, y: 0 };
 const GAME_SPEED = 150;
