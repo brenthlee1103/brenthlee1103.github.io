@@ -4,6 +4,7 @@ import Experience from "@/components/experience/Experience";
 import "./home.scss";
 import Intro from "@/components/intro/Intro";
 import AboutMe from "@/components/about-me/AboutMe";
+import "@fontsource/inter/600.css";
 
 function Home() {
   useEffect(() => {
