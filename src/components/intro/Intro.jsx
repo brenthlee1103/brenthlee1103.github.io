@@ -10,7 +10,8 @@ function Intro() {
           <span className="intro-title">Hi, I'm Brent Lee.</span>
           <span className="intro-body">
             I'm a full-stack software engineer with a focus in front-end, open
-            to opportunities in Bay Area, CA or Orange County, CA.
+            to in-office, remote, or hybrid opportunities in Bay Area, CA or
+            Orange County, CA.
           </span>
         </div>
       </div>
