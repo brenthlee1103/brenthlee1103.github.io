@@ -4,6 +4,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Home from "./pages/home/Home.jsx";
 // import FillForm from "./pages/fill-form/FillForm.jsx";
 import ScReservationPage from "./pages/sc-reservation-page/ScReservationPage.jsx";
+import PacMan from "./pages/pac-man/PacMan.jsx";
 
 import "./App.css";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -23,6 +24,7 @@ createRoot(document.getElementById("root")).render(
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/tee-times" element={<ScReservationPage />} />
+          <Route path="/pac-man" element={<PacMan />} />
         </Routes>
       </BrowserRouter>
     </LocalizationProvider>
