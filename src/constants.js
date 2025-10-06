@@ -50,7 +50,7 @@ const experiences = [
     time: "01/2020 - 05/2020",
     subtitle: "Software Engineer",
     content: [
-      "Worked on Android app <a>(Tinyview Comics)</a> to display custom comics vertically for easy-to-read content on mobile devices",
+      "Worked on Android app (<a>Tinyview Comics</a>) to display custom comics vertically for easy-to-read content on mobile devices",
       "Used React Native to add a feature that allows users to like a comic and subscribe to the comic",
       "Created functionality to see number of page views per each page using Google Firebase on my first day",
     ],

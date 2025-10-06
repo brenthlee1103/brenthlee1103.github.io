@@ -18,6 +18,7 @@ function Experience() {
             subtitle={experience.subtitle}
             content={experience.content}
             imgUrl={experience.imgUrl}
+            link={experience.link || ""}
           />
         );
       })}

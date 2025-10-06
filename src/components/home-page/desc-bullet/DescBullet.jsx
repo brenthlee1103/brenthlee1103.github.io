@@ -3,16 +3,23 @@ import { SECTION, SECTION_BACKGROUND_COLOR } from "@/constants";
 
 function DescBullet({
   section,
-  bulletIndex = 0, // use index to switch image and container
   title = "",
   time = "",
   subtitle = "",
   content = "",
   imgUrl = "",
+  link = "",
 }) {
   // const backgroundColorMap = {
   //   Experience: "white",
   // };
+
+  const addHref = (s, url) =>
+    s.replace(
+      /<a(?![^>]*\bhref=)([^>]*)>/gi,
+      (_, attrs) => `<a target='_blank' href="${url}"${attrs}>`
+    );
+
   return (
     <div className="random">
       <img src={imgUrl} className="logo" />
@@ -29,11 +36,11 @@ function DescBullet({
             {Array.isArray(content) ? (
               <ul>
                 {content.map((li) => (
-                  <li>{li}</li>
+                  <li dangerouslySetInnerHTML={{ __html: addHref(li, link) }} />
                 ))}
               </ul>
             ) : (
-              content
+              addHref(content, link)
             )}
           </div>
         )}
