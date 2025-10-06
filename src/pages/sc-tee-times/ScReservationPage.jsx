@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 
-import DynamicTable from "@/components/dynamic-table/DynamicTable";
-import PageHeader from "@/components/page-header/PageHeader";
-import FillForm from "@/components/fill-form/FillForm";
-import ModalForm from "@/components/modal-form/ModalForm";
-import ClickMenu from "@/components/click-menu/ClickMenu";
+import DynamicTable from "@/components/sc-tee-times-page/dynamic-table/DynamicTable";
+import PageHeader from "@/components/sc-tee-times-page/page-header/PageHeader";
+import FillForm from "@/components/sc-tee-times-page/fill-form/FillForm";
+import ModalForm from "@/components/sc-tee-times-page/modal-form/ModalForm";
+import ClickMenu from "@/components/sc-tee-times-page/click-menu/ClickMenu";
 import Snackbar from "@mui/material/Snackbar";
 
 import "./sc-reservation-page.scss";

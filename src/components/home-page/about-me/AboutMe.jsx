@@ -1,9 +1,10 @@
 import "./about-me.scss";
+import SectionHeader from "@/components/home-page/section-container/SectionHeader";
 
 function AboutMe() {
   return (
     <section className="about-me-section">
-      <h1>About Me</h1>
+      <SectionHeader title="About Me" />
     </section>
   );
 }

@@ -23,7 +23,7 @@
   }
 
   .intro-body {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
   }
 }
 
@@ -34,14 +34,15 @@
 
 @media (max-width: 750px) {
   .intro-section {
-    padding-left: 0;
-    padding-right: 0;
+    // padding-left: 0;
+    // padding-right: 0;
     flex-direction: column;
 
     .container {
       display: flex;
       flex-direction: column;
       width: 100%;
+      max-width: 100%;
     }
   }
 
@@ -52,11 +53,11 @@
   .intro-text {
     text-align: center;
     .intro-title {
-      font-size: 1.9rem;
+      font-size: 1.7rem;
     }
 
     .intro-body {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
     }
   }
 }
@@ -68,7 +69,7 @@
 
   .intro-text {
     .intro-title {
-      font-size: 1.7rem;
+      font-size: 1.5rem;
     }
 
     .intro-body {

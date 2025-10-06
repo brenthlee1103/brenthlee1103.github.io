@@ -5,7 +5,8 @@ import pfp from "@/assets/profilepic.jpeg";
 function MainHeader() {
   return (
     <div className="header">
-      <img src={pfp} className="header-section profile-pic" />
+      <div />
+      {/* <img src={pfp} className="header-section profile-pic" /> */}
       <div className="header-section">
         <div className="header-item">
           <a
@@ -17,7 +18,7 @@ function MainHeader() {
               className="fa-regular fa-file fa-lg"
               style={{ color: "#000000" }}
             />
-            <span style={{ marginLeft: "5px" }}>CV</span>
+            <span style={{ marginLeft: "5px" }}>CV/Résumé</span>
           </a>
         </div>
         <div className="header-item">

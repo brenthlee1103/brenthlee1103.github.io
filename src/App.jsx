@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Home from "./pages/home/Home.jsx";
 // import FillForm from "./pages/fill-form/FillForm.jsx";
-import ScReservationPage from "./pages/sc-reservation-page/ScReservationPage.jsx";
+import ScReservationPage from "./pages/sc-tee-times/ScReservationPage.jsx";
 import PacMan from "./pages/pac-man/PacMan.jsx";
 import Snake from "./pages/snake/Snake.jsx";
 
