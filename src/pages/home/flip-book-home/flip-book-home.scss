@@ -1,0 +1,668 @@
+// :root {
+//   --book-w: 760px;
+//   --book-h: 520px;
+//   --gutter: 2px;
+//   display: flex;
+//   flex-direction: column;
+//   width: 100%;
+//   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+//     sans-serif;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+//   font-weight: 400;
+// }
+
+// .home-page {
+//   height: 100svh; /* use dynamic viewport to avoid 100vh quirks */
+//   display: flex;
+//   flex-direction: column;
+// }
+
+// .flipbook-demo {
+//   height: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   // min-height: 100vh;
+//   // display: grid;
+//   // place-items: center;
+//   // background: #0f1216;
+//   // padding: 2rem;
+// }
+
+// .pfp-cover {
+//   margin-top: 10%;
+//   width: 75%;
+//   border-radius: 50%;
+// }
+
+// .book-wrap {
+//   position: relative;
+//   width: var(--book-w);
+//   height: var(--book-h);
+// }
+
+// .book {
+//   width: 100%;
+//   height: 100%;
+//   position: relative;
+//   transform-style: preserve-3d;
+// }
+
+// .stage {
+//   // .fill-page {
+//   flex: 1 1 auto;
+//   width: 100%;
+//   overflow: hidden;
+//   perspective: 2200px;
+//   height: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .stage {
+//   perspective: 2200px;
+// }
+
+// .left-stack {
+//   position: absolute;
+//   top: 0;
+//   right: 50%;
+//   width: calc(var(--book-w) / 2);
+//   height: 100%;
+//   background: #f6f7fb;
+//   border-right: var(--gutter) solid #eaeef6;
+//   box-shadow: inset -8px 0 20px rgba(0, 0, 0, 0.06);
+// }
+
+// /* Book binding shadow */
+// .spine {
+//   position: absolute;
+//   top: 0;
+//   left: calc(50% - var(--gutter));
+//   width: calc(var(--gutter) * 2);
+//   height: 100%;
+//   background: #cfd6e6;
+//   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+// }
+
+// .controls {
+//   margin-top: 16px;
+//   display: flex;
+//   justify-content: center;
+//   gap: 12px;
+// }
+// .controls button {
+//   appearance: none;
+//   border: 0;
+//   border-radius: 999px;
+//   padding: 10px 16px;
+//   background: #111827;
+//   color: #e5e7eb;
+//   cursor: pointer;
+//   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+//   font-weight: 600;
+// }
+// .controls button[disabled] {
+//   opacity: 0.35;
+//   cursor: not-allowed;
+// }
+
+// @media (max-width: 900px) {
+//   :root {
+//     --book-w: 92vw;
+//     --book-h: 60vw;
+//   }
+// }
+// @media (max-width: 520px) {
+//   :root {
+//     --book-h: 70vw;
+//   }
+//   .page h1 {
+//     font-size: 32px;
+//   }
+//   .page h2 {
+//     font-size: 20px;
+//   }
+// }
+
+// //////////////////////////////////////////////////////////
+// :root {
+//   --book-w: 760px;
+//   --book-h: 520px;
+//   --gutter: 2px;
+//   display: flex;
+//   flex-direction: column;
+//   width: 100%;
+//   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+//     sans-serif;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+//   font-weight: 400;
+// }
+
+// .flipbook-demo {
+//   height: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   // min-height: 100vh;
+//   // display: grid;
+//   // place-items: center;
+//   // background: #0f1216;
+//   // padding: 2rem;
+// }
+
+// .pfp-cover {
+//   margin-top: 10%;
+//   width: 75%;
+//   border-radius: 50%;
+// }
+
+// .page-stuff {
+//   height: 100svh; /* use dynamic viewport to avoid 100vh quirks */
+//   display: flex;
+//   flex-direction: column;
+// }
+
+// .fill-page {
+//   flex: 1 1 auto;
+//   width: 100%;
+//   /* If you ever want internal scrolling here (but not on the page), use: */
+//   /* overflow: auto; */
+//   /* For now, keep it non-scrollable to match “no scrolling”: */
+//   overflow: hidden;
+// }
+
+// .stage {
+//   perspective: 2200px;
+// }
+
+// .book-wrap {
+//   position: relative;
+//   width: var(--book-w);
+//   height: var(--book-h);
+// }
+
+// .book {
+//   width: 100%;
+//   height: 100%;
+//   position: relative;
+//   transform-style: preserve-3d;
+// }
+
+// /* Base look for every sheet (a sheet == two pages front/back) */
+// .sheet {
+//   position: absolute;
+//   top: 0;
+//   left: 50%;
+//   width: calc(var(--book-w) / 2);
+//   height: 100%;
+//   transform-style: preserve-3d;
+//   transform-origin: left center;
+//   transition: transform 0.9s cubic-bezier(0.2, 0.65, 0.15, 1);
+// }
+
+// /* Stacking order so earlier sheets sit above later ones */
+// .sheet.s0 {
+//   z-index: 30;
+// }
+// .sheet.s1 {
+//   z-index: 20;
+// }
+// .sheet.s2 {
+//   z-index: 10;
+// }
+// /* When flipped to the left stack, ensure the most recently flipped sheet sits on top
+//            so Page 3 overlays Page 1, and Page 5 overlays Page 3, etc. */
+// .sheet.s0.flipped {
+//   z-index: 10;
+// }
+// .sheet.s1.flipped {
+//   z-index: 20;
+// }
+// .sheet.s2.flipped {
+//   z-index: 40;
+// }
+
+// /* Individual page (right or left face of a sheet) (right or left face of a sheet) */
+// .page {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   background: #fff;
+//   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 10px 25px rgba(0, 0, 0, 0.25);
+//   backface-visibility: hidden;
+//   overflow: hidden;
+//   display: flex;
+//   flex-direction: column;
+//   padding: 0;
+// }
+
+// .page-inner {
+//   padding: 28px 32px;
+//   font: 500 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+//     "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+//   color: #1a1f2b;
+//   height: 100%;
+//   overflow: auto;
+// }
+
+// .page h1,
+// .page h2 {
+//   margin: 0 0 0.5rem;
+//   line-height: 1.2;
+// }
+// .page h1 {
+//   font-size: 40px;
+//   letter-spacing: 0.5px;
+// }
+// .page h2 {
+//   font-size: 24px;
+//   color: #0f172a;
+// }
+// .page p {
+//   margin: 0 0 0.75rem;
+//   color: #2a3344;
+// }
+// .page ul {
+//   margin: 0.25rem 0 0.75rem 1.25rem;
+// }
+
+// /* Right side of the open book (front of a sheet) */
+// .front {
+//   transform: rotateY(0deg) translateZ(1px);
+//   border-left: var(--gutter) solid #eaeef6;
+// }
+// /* Left side (back of a sheet) */
+// .back {
+//   transform: rotateY(180deg);
+//   border-right: var(--gutter) solid #eaeef6;
+// }
+
+// /* Flip the sheet to reveal its back */
+// .flipped {
+//   transform: rotateY(-180deg);
+// }
+
+// /* The static left half (already read pages) */
+// .left-stack {
+//   position: absolute;
+//   top: 0;
+//   right: 50%;
+//   width: calc(var(--book-w) / 2);
+//   height: 100%;
+//   background: #f6f7fb;
+//   border-right: var(--gutter) solid #eaeef6;
+//   box-shadow: inset -8px 0 20px rgba(0, 0, 0, 0.06);
+// }
+
+// /* Book binding shadow */
+// .spine {
+//   position: absolute;
+//   top: 0;
+//   left: calc(50% - var(--gutter));
+//   width: calc(var(--gutter) * 2);
+//   height: 100%;
+//   background: #cfd6e6;
+//   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+// }
+
+// /* Cover styling */
+// .cover {
+//   background: linear-gradient(135deg, #0e7490 0%, #155e75 100%);
+//   color: #e6f6fb;
+// }
+// .cover .page-inner {
+//   display: grid;
+//   place-items: center;
+//   text-align: center;
+// }
+// .cover h1 {
+//   font-weight: 800;
+//   text-transform: uppercase;
+// }
+// .cover p {
+//   color: #cfe9f2;
+// }
+
+// /* Page numbers */
+// .num {
+//   margin-top: auto;
+//   padding-top: 6px;
+//   border-top: 1px dashed #d6deee;
+//   text-align: center;
+//   color: #6b7280;
+//   font-size: 12px;
+// }
+
+// /* Controls */
+// .controls {
+//   margin-top: 16px;
+//   display: flex;
+//   justify-content: center;
+//   gap: 12px;
+// }
+// .controls button {
+//   appearance: none;
+//   border: 0;
+//   border-radius: 999px;
+//   padding: 10px 16px;
+//   background: #111827;
+//   color: #e5e7eb;
+//   cursor: pointer;
+//   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+//   font-weight: 600;
+// }
+// .controls button[disabled] {
+//   opacity: 0.35;
+//   cursor: not-allowed;
+// }
+
+// /* Clickable invisible hot-zones on page corners for natural flipping */
+// // .hotzone {
+// //   position: absolute;
+// //   width: 28%;
+// //   height: 28%;
+// //   z-index: 50;
+// // }
+// // .hot-next {
+// //   right: 0;
+// //   bottom: 0;
+// // }
+// // .hot-prev {
+// //   left: 0;
+// //   bottom: 0;
+// // }
+
+// /* Responsiveness */
+// @media (max-width: 900px) {
+//   :root {
+//     --book-w: 92vw;
+//     --book-h: 60vw;
+//   }
+// }
+// @media (max-width: 520px) {
+//   :root {
+//     --book-h: 70vw;
+//   }
+//   .page h1 {
+//     font-size: 32px;
+//   }
+//   .page h2 {
+//     font-size: 20px;
+//   }
+// }
+
+:root {
+  --book-w: 760px;
+  --book-h: 520px;
+  --gutter: 2px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+}
+
+.flipbook-demo {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // min-height: 100vh;
+  // display: grid;
+  // place-items: center;
+  // background: #0f1216;
+  // padding: 2rem;
+}
+
+.pfp-cover {
+  margin-top: 10%;
+  width: 75%;
+  border-radius: 50%;
+}
+
+.page-stuff {
+  height: 100svh; /* use dynamic viewport to avoid 100vh quirks */
+  display: flex;
+  flex-direction: column;
+}
+
+.fill-page {
+  flex: 1 1 auto;
+  width: 100%;
+  /* If you ever want internal scrolling here (but not on the page), use: */
+  /* overflow: auto; */
+  /* For now, keep it non-scrollable to match “no scrolling”: */
+  overflow: hidden;
+}
+
+.stage {
+  flex-direction: column;
+  perspective: 2200px;
+}
+
+.book-wrap {
+  position: relative;
+  width: var(--book-w);
+  height: var(--book-h);
+}
+
+.book {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+/* Base look for every sheet (a sheet == two pages front/back) */
+.sheet {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: calc(var(--book-w) / 2);
+  height: 100%;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  transition: transform 0.9s cubic-bezier(0.2, 0.65, 0.15, 1);
+}
+
+/* Stacking order so earlier sheets sit above later ones */
+.sheet.s0 {
+  z-index: 30;
+}
+.sheet.s1 {
+  z-index: 20;
+}
+.sheet.s2 {
+  z-index: 10;
+}
+/* When flipped to the left stack, ensure the most recently flipped sheet sits on top
+           so Page 3 overlays Page 1, and Page 5 overlays Page 3, etc. */
+.sheet.s0.flipped {
+  z-index: 10;
+}
+.sheet.s1.flipped {
+  z-index: 20;
+}
+.sheet.s2.flipped {
+  z-index: 40;
+}
+
+/* Individual page (right or left face of a sheet) (right or left face of a sheet) */
+.page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 10px 25px rgba(0, 0, 0, 0.25);
+  backface-visibility: hidden;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.page-inner {
+  padding: 28px 32px;
+  font: 500 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+    "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: #1a1f2b;
+  height: 100%;
+  overflow: auto;
+}
+
+.page h1,
+.page h2 {
+  margin: 0 0 0.5rem;
+  line-height: 1.2;
+}
+.page h1 {
+  font-size: 40px;
+  letter-spacing: 0.5px;
+}
+.page h2 {
+  font-size: 24px;
+  color: #0f172a;
+}
+.page p {
+  margin: 0 0 0.75rem;
+  color: #2a3344;
+}
+.page ul {
+  margin: 0.25rem 0 0.75rem 1.25rem;
+}
+
+/* Right side of the open book (front of a sheet) */
+.front {
+  transform: rotateY(0deg) translateZ(1px);
+  border-left: var(--gutter) solid #eaeef6;
+}
+/* Left side (back of a sheet) */
+.back {
+  transform: rotateY(180deg);
+  border-right: var(--gutter) solid #eaeef6;
+}
+
+/* Flip the sheet to reveal its back */
+.flipped {
+  transform: rotateY(-180deg);
+}
+
+/* The static left half (already read pages) */
+.left-stack {
+  position: absolute;
+  top: 0;
+  right: 50%;
+  width: calc(var(--book-w) / 2);
+  height: 100%;
+  background: #f6f7fb;
+  border-right: var(--gutter) solid #eaeef6;
+  box-shadow: inset -8px 0 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Book binding shadow */
+.spine {
+  position: absolute;
+  top: 0;
+  left: calc(50% - var(--gutter));
+  width: calc(var(--gutter) * 2);
+  height: 100%;
+  background: #cfd6e6;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+/* Cover styling */
+.cover {
+  background: linear-gradient(135deg, #0e7490 0%, #155e75 100%);
+  color: #e6f6fb;
+}
+.cover .page-inner {
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+.cover h1 {
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.cover p {
+  color: #cfe9f2;
+}
+
+/* Page numbers */
+.num {
+  margin-top: auto;
+  padding-top: 6px;
+  border-top: 1px dashed #d6deee;
+  text-align: center;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+/* Controls */
+.controls {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.controls button {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 16px;
+  background: #111827;
+  color: #e5e7eb;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  font-weight: 600;
+}
+.controls button[disabled] {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Clickable invisible hot-zones on page corners for natural flipping */
+// .hotzone {
+//   position: absolute;
+//   width: 28%;
+//   height: 28%;
+//   z-index: 50;
+// }
+// .hot-next {
+//   right: 0;
+//   bottom: 0;
+// }
+// .hot-prev {
+//   left: 0;
+//   bottom: 0;
+// }
+
+/* Responsiveness */
+@media (max-width: 900px) {
+  :root {
+    --book-w: 92vw;
+    --book-h: 60vw;
+  }
+}
+@media (max-width: 520px) {
+  :root {
+    --book-h: 70vw;
+  }
+  .page h1 {
+    font-size: 32px;
+  }
+  .page h2 {
+    font-size: 20px;
+  }
+}
