@@ -15,8 +15,8 @@ function Sheet({
       className={`sheet s${index} ${flipped ? "flipped" : ""}`}
       {...(isCover ? { onTransitionEnd: onCoverTransitionEnd } : {})}
     >
-      <section className={`page front ${isCover ? "cover" : ""}`}>
-        <div className="page-inner">{front}</div>
+      <section className={`page1 front ${isCover ? "cover" : ""}`}>
+        <div className="page1-inner">{front}</div>
         {/* Optional hotzone on the front to go forward */}
         <button
           className="hotzone hot-next"
@@ -27,8 +27,8 @@ function Sheet({
 
       {/* Back page (left side). If null/undefined, render nothing */}
       {back != null && (
-        <section className="page back">
-          <div className="page-inner">{back}</div>
+        <section className="page1 back">
+          <div className="page1-inner">{back}</div>
           {/* Optional hotzone on the back to go backward */}
           <button
             className="hotzone hot-prev"

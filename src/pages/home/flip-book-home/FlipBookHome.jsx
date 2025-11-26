@@ -129,9 +129,9 @@ function FlipBookHome() {
   }, [sheet]);
 
   return (
-    <div className="page-stuff">
+    <div className="page1-stuff">
       <MainHeader />
-      <div className="fill-page">
+      <div className="fill-page1">
         <div className="flipbook-demo">
           <div className="stage">
             <div className="book-wrap" aria-label="Flipbook: Brent Lee">
