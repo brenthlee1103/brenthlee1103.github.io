@@ -148,7 +148,7 @@ function ReservationPage() {
     );
     setFormData(initialForm);
     const data = await res.json();
-    setRows(data);
+    setRows(data.data);
     running.current = false;
   }
 
