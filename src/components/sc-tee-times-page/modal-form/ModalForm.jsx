@@ -22,9 +22,9 @@ function ModalForm({
 
   useEffect(() => {
     if (open) {
-      const { email = "", date = "" } = latestFormRef.current ?? {};
-      const name = (email || "").split("@")[0] ?? "";
-      setInitTitle(`Editing ${name} on ${date}`);
+      const { course = "", date = "" } = latestFormRef.current ?? {};
+      // const name = (email || "").split("@")[0] ?? "";
+      setInitTitle(`Editing ${course} on ${date}`);
     }
   }, [open]);
 

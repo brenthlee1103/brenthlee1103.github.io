@@ -120,15 +120,35 @@ function FillForm({
   return (
     <form className="tee-time-form" onSubmit={handleSubmit}>
       <div className="row">
+        <FormControl className="general" fullWidth required>
+          <InputLabel id="course-select-label" className="general">
+            Course
+          </InputLabel>
+          <Select
+            className="general"
+            labelId="course-select-label"
+            id="course-select"
+            value={formValues.course}
+            name="course"
+            onChange={handleInputChange}
+          >
+            <MenuItem value={"sj"}>San Juan Hills Golf Club</MenuItem>
+            <MenuItem value={"sc"}>San Clemente Municipal</MenuItem>
+            {/* <MenuItem value={3}>3</MenuItem>
+            <MenuItem value={4}>4</MenuItem> */}
+          </Select>
+        </FormControl>
+      </div>
+      {/* <div className="row">
         <TextField
-          label="Email"
-          name="email"
-          value={formValues.email}
+          label="course"
+          name="course"
+          value={formValues.course}
           required={true}
           onChange={handleInputChange}
           fullWidth
         />
-      </div>
+      </div> */}
       <div className="row">
         <DatePicker
           label="Date"

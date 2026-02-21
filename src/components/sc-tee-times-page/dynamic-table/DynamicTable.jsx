@@ -32,7 +32,7 @@ function DynamicTable({
   //   onRowMenu?.({ row, index, x, y });
   // };
 
-  const emailMobile = (email) => email.replace("@", "\u200b@");
+  // const emailMobile = (email) => email.replace("@", "\u200b@");
 
   // const [selectedIndex, setSelectedIndex] = useState(null);
 
@@ -74,7 +74,7 @@ function DynamicTable({
         </colgroup>
         <thead>
           <tr>
-            <th style={{ width: "30%" }}>Email</th>
+            <th style={{ width: "30%" }}>Course</th>
             <th>Date</th>
             <th>Earliest</th>
             <th>Latest</th>
@@ -96,12 +96,12 @@ function DynamicTable({
                 (clickMenuObj.index === i ? " selected-row-class" : "");
               return (
                 <tr
-                  key={`${r.email}-${r.date}-${i}`}
+                  key={`${r.course}-${r.date}-${i}`}
                   className={rowSpecificClass}
                   onPointerDown={rememberPointer}
                   onClick={handleRowClick(r, i)}
                 >
-                  <td>{isMobile ? emailMobile(r.email) : r.email}</td>
+                  <td>{r.course}</td>
                   <td>{r.date}</td>
                   <td>{r.earliest}</td>
                   <td>{r.latest}</td>
@@ -115,8 +115,8 @@ function DynamicTable({
                 {loading
                   ? "Loading data"
                   : running
-                  ? "Loading new data"
-                  : "There are no tee times being made!"}
+                    ? "Loading new data"
+                    : "There are no tee times being made!"}
               </td>
             </tr>
           )}

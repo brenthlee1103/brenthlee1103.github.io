@@ -1,0 +1,212 @@
+// /* RESET & FONTS */
+// @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Inter:wght@400;600&display=swap");
+
+// * {
+//   box-sizing: border-box;
+//   margin: 0;
+//   padding: 0;
+// }
+
+// body {
+//   background-color: #050505; /* Deep Black */
+//   color: #e0e0e0;
+//   font-family: "Inter", sans-serif;
+//   -webkit-font-smoothing: antialiased;
+// }
+
+// /* LAYOUT */
+// .app-container {
+//   min-height: 100vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   padding: 20px;
+//   background: radial-gradient(circle at center, #111111 0%, #000000 100%);
+// }
+
+// .content-wrapper {
+//   width: 100%;
+//   max-width: 900px;
+//   border: 1px solid #333;
+//   padding: 40px;
+//   border-radius: 12px;
+//   background-color: #0a0a0a;
+//   box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+// }
+
+// /* HEADER */
+// .header {
+//   text-align: center;
+//   margin-bottom: 40px;
+//   letter-spacing: 2px;
+// }
+
+// .brand-name {
+//   font-size: 1.2rem;
+//   font-weight: 600;
+//   color: #888;
+//   margin-bottom: 8px;
+// }
+
+// .status-indicator {
+//   font-family: "Roboto Mono", monospace;
+//   font-size: 0.8rem;
+//   color: #00ff9d; /* Matrix Green */
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   gap: 8px;
+// }
+
+// .dot {
+//   width: 8px;
+//   height: 8px;
+//   background-color: #00ff9d;
+//   border-radius: 50%;
+//   box-shadow: 0 0 10px #00ff9d;
+//   animation: pulse 2s infinite;
+// }
+
+// /* POOL DISPLAY (THE HERO) */
+// .pool-container {
+//   text-align: center;
+//   margin-bottom: 60px;
+// }
+
+// .pool-label {
+//   font-family: "Roboto Mono", monospace;
+//   font-size: 0.9rem;
+//   color: #666;
+//   margin-bottom: 10px;
+// }
+
+// .pool-amount {
+//   font-family: "Roboto Mono", monospace;
+//   font-size: 5rem;
+//   font-weight: 700;
+//   color: #ffffff;
+//   /* Cyan Glow Effect */
+//   text-shadow: 0 0 20px rgba(0, 240, 255, 0.3), 0 0 40px rgba(0, 240, 255, 0.1);
+// }
+
+// .pool-subtext {
+//   font-size: 0.8rem;
+//   color: #444;
+//   margin-top: 10px;
+//   letter-spacing: 1px;
+// }
+
+// /* TABLE STYLES */
+// .table-container {
+//   overflow-x: auto; /* Makes table scrollable on mobile */
+//   border: 1px solid #222;
+//   border-radius: 8px;
+// }
+
+// .ledger-table {
+//   width: 100%;
+//   border-collapse: collapse;
+//   font-size: 0.9rem;
+//   text-align: left;
+// }
+
+// .ledger-table th {
+//   background-color: #111;
+//   color: #666;
+//   font-weight: 600;
+//   padding: 16px;
+//   font-size: 0.75rem;
+//   letter-spacing: 1px;
+// }
+
+// .ledger-table td {
+//   padding: 16px;
+//   border-bottom: 1px solid #222;
+//   color: #ccc;
+// }
+
+// .ledger-table tr:last-child td {
+//   border-bottom: none;
+// }
+
+// .mono-text {
+//   font-family: "Roboto Mono", monospace;
+// }
+
+// /* STATUS PILLS */
+// .status-pill {
+//   padding: 4px 10px;
+//   border-radius: 4px;
+//   font-size: 0.7rem;
+//   font-weight: 700;
+//   text-transform: uppercase;
+//   letter-spacing: 0.5px;
+// }
+
+// .status-pill.verified {
+//   background-color: rgba(0, 255, 157, 0.1);
+//   color: #00ff9d;
+//   border: 1px solid rgba(0, 255, 157, 0.2);
+// }
+
+// .status-pill.pending {
+//   background-color: rgba(255, 196, 0, 0.1);
+//   color: #ffc400;
+//   border: 1px solid rgba(255, 196, 0, 0.2);
+// }
+
+// .proof-link {
+//   color: #00f0ff;
+//   text-decoration: none;
+//   font-size: 0.8rem;
+//   transition: opacity 0.2s;
+// }
+
+// .proof-link:hover {
+//   opacity: 0.7;
+//   text-decoration: underline;
+// }
+
+// /* FOOTER */
+// .footer {
+//   margin-top: 60px;
+//   text-align: center;
+//   font-size: 0.75rem;
+//   color: #444;
+// }
+
+// .legal-text {
+//   margin-top: 8px;
+// }
+
+// .legal-text a {
+//   color: #666;
+//   text-decoration: none;
+// }
+
+// .legal-text a:hover {
+//   color: #888;
+// }
+
+// /* ANIMATIONS */
+// @keyframes pulse {
+//   0% {
+//     opacity: 1;
+//   }
+//   50% {
+//     opacity: 0.4;
+//   }
+//   100% {
+//     opacity: 1;
+//   }
+// }
+
+// /* MOBILE RESPONSIVENESS */
+// @media (max-width: 600px) {
+//   .pool-amount {
+//     font-size: 3.5rem;
+//   }
+//   .content-wrapper {
+//     padding: 20px;
+//   }
+// }
